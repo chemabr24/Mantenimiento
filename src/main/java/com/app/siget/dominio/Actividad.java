@@ -13,7 +13,7 @@ public class Actividad {
 	private boolean reunion;
 	private String semana;
 
-	// a
+	// a 
 	public Actividad(String name, DiaSemana dia, LocalTime horaI, LocalTime horaF, boolean reunion, String semana) {
 		this.id = Math.abs((int) System.currentTimeMillis());
 		this.name = name;
