@@ -1,0 +1,41 @@
+dist: trusty
+
+language: java
+
+jdk:
+  - oraclejdk8
+
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+  sonarcloud:
+    organization: "danigcj31"
+    token:
+      secure: "aF+5mhvcAhDLwT7p48euBliIPu1cCQusMTCZ/tL5TL3THKLBcCDL24lBEXKBw/VQrQ/kS+d9/ZZg8BUjIxLOvSvD+XHrqH0cU7qBOEF0EZi0Y4VIsvbVhNvwTQL6ynhfnVnHoIrCmVcZbOUS1qudm1wVPgvN2GdsaHjn2sysCCdAEktkOpdr+h0FeX50K3DLNlhTWnzh9XmUPq32EsdSFVU471QV0Zw/1R7QWFm/3Ikeh4kYQ34SGFNKfB8P3BKNxg6+mOVKKdddR1JrY1xNcj4C20mPwLDppz70MqsGfJzVD+DjmIw1xsX18S3zaIFNaLZHxgvpAhT5uW1/jKTCKIw0pcpuZ0Dnko4cBbARkLRMsaaLtey+AcA7rUtfnEgAaK3qVJU0K9xwBamd1YAIzGL0OVNrEXJhHksArxGKkYHAXEg2ZUP7GLASv0TiKGFQri2azVILslQFaKKNGAgMmSYv9ftK+ngZqt6huDvIxCWgmBUt4NoOLdQrJBEi0cBlmIURi4gjhTZ1eidMF0611Iun8/tItjuuvn6VcZDxBhXf3OBUAkpxF7+ymLy7hxSXLQqLctJavL33BSDkcUgjAbOzqJ0HcxerxAI9TFvZ3pJZ3afCuscvmJd6vXZk9Yvyz/yXvBZjpUDYL+JsArwRhR+6FNoywgiXiFuQfBDw9s0="
+
+install:
+  - npm install
+
+git:
+  depth: false
+
+script:
+- mvn clean
+- mvn verify
+- mvn jacoco:report
+- mvn install
+- mvn package spring-boot:repackage
+- mvn verify sonar:sonar -Dsonar.projectKey=danigcj31_SIGET_Equipo1 -Dsonar.organization=danigcj31
+
+
+deploy: &heroku
+        provider: heroku
+        app: siget_equipo1
+        api_key: 18562f60-1231-4327-8b42-88518f1e5dde
+
+server:
+        port: $PORT
+  
+before_install:
+  - chmod +x mvnw
